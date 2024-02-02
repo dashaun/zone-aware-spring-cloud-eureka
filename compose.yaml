@@ -1,0 +1,48 @@
+services:
+  config:
+    image: dashaun/dev.dashaun.service.config:v0.0.0-aarch_64
+    ports:
+      - "8888:8888"
+    networks:
+      - az1
+  hello:
+    image: dashaun/dev.dashaun.service.hello:v0.0.0-aarch_64
+    environment:
+      SPRING_CLOUD_BOOTSTRAP_ENABLED: "true"
+      SPRING_CLOUD_CONFIG_URI: "http://config:8888"
+      SPRING_CLOUD_CONFIG_FAIL_FAST: "true"
+    networks:
+      - az1
+  peer1:
+    image: dashaun/dev.dashaun.service.eureka:v0.0.0-aarch_64
+    environment:
+      SPRING_CLOUD_BOOTSTRAP_ENABLED: "true"
+      SPRING_CLOUD_CONFIG_URI: "http://config:8888"
+      SPRING_CLOUD_CONFIG_FAIL_FAST: "true"
+    ports:
+      - "8081:8080"
+    networks:
+      - az1
+  peer2:
+    image: dashaun/dev.dashaun.service.eureka:v0.0.0-aarch_64
+    environment:
+      SPRING_CLOUD_BOOTSTRAP_ENABLED: "true"
+      SPRING_CLOUD_CONFIG_URI: "http://config:8888"
+      SPRING_CLOUD_CONFIG_FAIL_FAST: "true"
+    ports:
+      - "8082:8080"
+    networks:
+      - az1
+  peer3:
+    image: dashaun/dev.dashaun.service.eureka:v0.0.0-aarch_64
+    environment:
+      SPRING_CLOUD_BOOTSTRAP_ENABLED: "true"
+      SPRING_CLOUD_CONFIG_URI: "http://config:8888"
+      SPRING_CLOUD_CONFIG_FAIL_FAST: "true"
+    ports:
+      - "8083:8080"
+    networks:
+      - az1
+networks:
+  az1:
+    driver: bridge
